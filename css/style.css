@@ -1,0 +1,36 @@
+body{
+    background-color: black;
+    color:#979797;
+    margin: 0px auto;
+    font-family: monospace;
+}
+header{
+    padding:20px 40px;
+    background-color: rgba(0, 0, 0, 0.31);
+    font-size: 3em;
+}
+main{
+    padding: 20px 40px;
+    background-color: rgba(255, 255, 255, 0.07);
+    font-size: 2em;
+}
+footer{
+    bottom:0px;
+    left: 0px;
+    position: absolute;
+    padding: 10px 20px;
+    background-color: rgba(0, 0, 0, 0.18);
+}
+
+.string{
+    color: #A5E596
+}
+.number{
+    color: #9DAFE6
+}
+#cursor{
+    color: #B8B8B8;
+}
+.hidden{
+    visibility: hidden;
+}
