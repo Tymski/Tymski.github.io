@@ -10,13 +10,15 @@ myText = {
     }
 };
 
-secretCheatCodesList = [];
 class CheatCode{
-    constructor(string,effect){
+    constructor(string,callback){
         this.string=string.toLowerCase();
         this.index=0;
-        this.effect = effect;
-        secretCheatCodesList.push(this);
+        this.callback = callback;
+        CheatCode.all.push(this);
+        if(CheatCode.all.length === 1){
+            CheatCode.createListener();
+        }
     }
     keyPressed({key}){
         if(this.string[this.index]==key){
@@ -25,13 +27,35 @@ class CheatCode{
             this.index=0;
         }
         if (this.index==this.string.length){
-            if(typeof this.effect=='function')this.effect();
+            if(typeof this.callback=='function')this.callback();
             this.index=0;
             return true;
         }
         return false;
     }
+    delete(){
+        var index = CheatCode.all.indexOf(this);
+        if (index > -1) {
+            CheatCode.all.splice(index, 1);
+        }
+        if(CheatCode.all.length === 0){
+            CheatCode.removeListener();
+        }
+    }
 }
+CheatCode.all = [];
+CheatCode.listenerCallback = function(keypress){
+    for(let cheatCode of CheatCode.all){
+        cheatCode.keyPressed(keypress);
+    }
+};
+CheatCode.createListener = function(){
+    window.addEventListener("keypress",CheatCode.listenerCallback);    
+};
+CheatCode.removeListener = function(){
+    window.removeEventListener("keypress",CheatCode.listenerCallback); 
+};
+
 
 new CheatCode("Game", function(){
     main.innerHTML += 
@@ -63,8 +87,5 @@ new CheatCode("GameGameGameGame", function(){
 });
 
 window.addEventListener("keypress",function(keypress){
-    for(let secretCheatcode of secretCheatCodesList){
-        secretCheatcode.keyPressed(keypress);
-    }
     consoleText.innerHTML = myText.nextText();
 });
